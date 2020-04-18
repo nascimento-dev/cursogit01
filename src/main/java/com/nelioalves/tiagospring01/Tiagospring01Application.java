@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.nelioalves.tiagospring01.domain.Categoria;
+import com.nelioalves.tiagospring01.domain.Cidade;
+import com.nelioalves.tiagospring01.domain.Estado;
 import com.nelioalves.tiagospring01.domain.Produto;
 import com.nelioalves.tiagospring01.repositories.CategoriaRepository;
+import com.nelioalves.tiagospring01.repositories.CidadeRepository;
+import com.nelioalves.tiagospring01.repositories.EstadoRepository;
 import com.nelioalves.tiagospring01.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -19,6 +23,10 @@ public class Tiagospring01Application implements CommandLineRunner {
 	private CategoriaRepository categoriaRepository;
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	@Autowired
+	private EstadoRepository estadoRepository;
+	@Autowired
+	private CidadeRepository cidadeRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Tiagospring01Application.class, args);
@@ -43,6 +51,20 @@ public class Tiagospring01Application implements CommandLineRunner {
 		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+		
+		Estado est1 = new Estado(null, "Ceara");
+		Estado est2 = new Estado(null, "Alagoas");
+		
+		Cidade c1 = new Cidade(null, "Fortaleza", est1);
+		Cidade c2 = new Cidade(null, "Maceio", est2);
+		Cidade c3 = new Cidade(null, "Caucaia", est1);
+		
+		est1.getCidades().addAll(Arrays.asList(c1, c2));
+		est2.getCidades().addAll(Arrays.asList(c2));
+		
+		estadoRepository.saveAll(Arrays.asList(est1, est2));
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
 	}
 
 }
